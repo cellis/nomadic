@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "downlevelIteration": true,
+    "module": "commonjs",
+    "lib": ["es6", "es2015", "dom"],
+    "declaration": true,
+    "outDir": "dist",
+    "rootDir": "lib",
+    "strict": true,
+    "types": ["node", "jest"],
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": ["lib/**/*"],
+  "exclude": [
+    "node_modules", 
+    "coverage",
+    "lib/generation/Example.ts"]
+}
