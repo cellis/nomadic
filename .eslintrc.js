@@ -1,6 +1,6 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint','unused-imports'],
   extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
   env: {
     browser: true,
@@ -36,7 +36,7 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/explicit-member-accessibility': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
-        'max-len': [2, 80],
+        'max-len': [2, 100],
       },
     },
   ],

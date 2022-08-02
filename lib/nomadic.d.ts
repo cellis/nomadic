@@ -1,15 +1,15 @@
 declare namespace Nomadic {
-  interface Args {
-    action: 'up' | 'create' | 'down';
-    pathOrCount: string;
+
+  type Action = 'up' | 'create' | 'down';
+  interface Options {
     database?: string;
     migrations?: string;
     host?: string;
     user?: string;
     password?: string;
     config?: string;
-
+    skip?: boolean
   }
   
-  type ConfigArgs = Omit<Required<Args>, 'config' | 'action' | 'count'>
+  type ConfigArgs = Omit<Required<Options>, 'config' | 'action' | 'count'>
 }
