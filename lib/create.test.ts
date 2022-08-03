@@ -1,24 +1,27 @@
-import { create, SQL_TEMPLATE } from './create';
+import { create } from './create';
 import fs from 'fs';
 import path from 'path';
 import migrationFile from './templates/migrationFile';
+import { SQL_COMMENT_TEMPLATE } from './util/sql';
+import { getMigrationPath } from './test/helpers';
 
 jest.mock('fs', () => ({
-  readFileSync: jest.fn(),
   promises: {
     writeFile: jest.fn(),
     mkDir: jest.fn(),
   },
 }));
+    
 
-describe('when create is in args', () => {
+describe('create', () => {
   const args: Nomadic.ConfigArgs = {
-    migrations: path.join(process.cwd(),'migrations'),
+    migrations: getMigrationPath(),
     database: 'nomadic-test',
-    host: 'localhost:5432',
+    host: 'localhost',
     skip: true,
     user: 'postgres',
     password: '',
+    port: 5432,
   };
   const FORMATTED_DATE = '20220801203510';
   const MIGRATION_NAME = 'hello-world';
@@ -45,7 +48,7 @@ describe('when create is in args', () => {
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       path.join(args.migrations, 'sql',
         `${FORMATTED_DATE}-${MIGRATION_NAME}-up.sql`
-      ), SQL_TEMPLATE
+      ), SQL_COMMENT_TEMPLATE
     );
   });
   
@@ -53,7 +56,7 @@ describe('when create is in args', () => {
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       path.join(args.migrations, 'sql',
         `${FORMATTED_DATE}-${MIGRATION_NAME}-down.sql`
-      ), SQL_TEMPLATE
+      ), SQL_COMMENT_TEMPLATE
     );
   });
 });

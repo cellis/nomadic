@@ -6,8 +6,10 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "yarn fixtures:create && jest --watch ; yarn fixtures:drop",
+    "test": "yarn fixtures:create && jest ; yarn fixtures:drop",
+    "fixtures:create": "ts-node --files ./lib/scripts/createDatabase.ts",
+    "fixtures:drop": "ts-node --files ./lib/scripts/dropDatabase.ts",
     "nomadic": "ts-node --files ./lib/cli.ts"
   },
   "bin": {
@@ -20,7 +22,6 @@
     "@types/dedent": "^0.7.0",
     "@types/inflection": "^1.13.0",
     "@types/jest": "^28.1.6",
-    "@types/lodash": "^4.14.182",
     "@types/mock-fs": "^4.13.1",
     "@types/node": "^18.6.3",
     "@types/pg": "^8.6.5",
@@ -48,6 +49,7 @@
     "mock-argv": "^2.0.8",
     "mock-fs": "^5.1.2",
     "pg": "^8.7.3",
+    "pgtools": "^0.3.2",
     "prettier": "^2.7.1",
     "q": "^1.5.1",
     "quicktype-core": "^6.0.71",
@@ -61,7 +63,7 @@
     "commander": "^9.4.0",
     "debug": "^4.3.4",
     "figlet": "^1.5.2",
-    "inflection": "^1.13.2",
-    "lodash": "^4.17.21"
+    "glob-promise": "^5.0.0",
+    "inflection": "^1.13.2"
   }
 }

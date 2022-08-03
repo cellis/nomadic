@@ -2,8 +2,7 @@ import fs from 'fs';
 import { formatName } from './util/parsing';
 import path from 'path';
 import migrationFile from './templates/migrationFile';
-
-export const SQL_TEMPLATE = '/* Replace with your SQL commands */\n';
+import { SQL_COMMENT_TEMPLATE } from './util/sql';
 
 export async function create(name: string, args: Nomadic.ConfigArgs) {
   const date = new Date();
@@ -20,9 +19,9 @@ export async function create(name: string, args: Nomadic.ConfigArgs) {
   
   await fs.promises.writeFile(
     path.join(args.migrations,'sql', downFile), 
-    SQL_TEMPLATE);
+    SQL_COMMENT_TEMPLATE);
 
   await fs.promises.writeFile(
     path.join(args.migrations,'sql', upFile), 
-    SQL_TEMPLATE);
+    SQL_COMMENT_TEMPLATE);
 }

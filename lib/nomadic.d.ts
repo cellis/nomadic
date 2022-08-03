@@ -7,6 +7,7 @@ declare namespace Nomadic {
     host?: string;
     user?: string;
     password?: string;
+    port?: number;
     config?: string;
     skip?: boolean
   }

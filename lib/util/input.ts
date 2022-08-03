@@ -1,13 +1,18 @@
 import { Command, Option } from 'commander';
 import path from 'path';
 
-export const skipOption = new Option('-s, --skip', 'skip after hooks');
+export const skipOption = new Option('-s, --skip <boolean>', 'skip after hooks');
 
-export const passwordOpt = new Option('-p, --password', 'database password');
+export const passwordOpt = new Option('-p, --password <string>', 'database password');
 passwordOpt.default('');
-export const databaseOpt = new Option('-d, --database', 'database name');
-export const hostOpt = new Option('-h, --host', 'database host (including port)');
-hostOpt.default('localhost:5432');
+
+export const portOpt = new Option('--port <number>', 'database port');
+portOpt.default(5432);
+
+export const databaseOpt = new Option('-d, --database <string>', 'database name');
+
+export const hostOpt = new Option('-h, --host', 'database host');
+hostOpt.default('localhost');
 export const userOpt = new Option('-u, --user', 'database user');
 userOpt.default('postgres');
 export const migrationsOpt = new Option('-m, --migrations', 'migrations directory');

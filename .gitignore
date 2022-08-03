@@ -2,3 +2,5 @@ node_modules/
 coverage/
 dist/
 nomadic.config.js
+.vscode/
+**/.DS_Store

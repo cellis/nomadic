@@ -1,5 +1,4 @@
 import colors from 'colors';
-import { isNil, omit } from 'lodash';
 import path from 'path';
 
 // eslint-disable-next-line
@@ -13,7 +12,9 @@ export async function setupConfigAndRun(options: Nomadic.Options,callback: Migra
   try {
     
     if (options.config) {
-      config = { ...require(path.resolve(options.config)), ...omit(options, 'config') };
+      // eslint-disable-next-line
+      const { config: _, ...optionsWithoutConfig } = options;
+      config = { ...require(path.resolve(options.config)), ...optionsWithoutConfig };
       log('Loaded -c config from %s %o',options.config,config);
     } else {
       // try to load config
@@ -39,11 +40,13 @@ export async function setupConfigAndRun(options: Nomadic.Options,callback: Migra
   const orAdd = 'or add it in your nomadic.config.js\n';
   
   let keyErr = false;
-  const keys = ['database', 'user', 'password', 'host', 'migrations'];
+  const keys = ['database', 'user', 'password', 'host', 'migrations', 'port'];
   
   keys.forEach((key: string) => {
-    if (isNil(config[key as keyof Nomadic.ConfigArgs])) {
-      console.log(colors.cyan(`${passErr}\`${key}\` with -${key.charAt(0)} ${orAdd}`));
+    if (!config[key as keyof Nomadic.ConfigArgs]) {
+      console.log(colors.cyan(
+        `${passErr}\`${key}\` with -${key.charAt(0)} ${orAdd}`
+      ));
       keyErr = true;
     }
   });

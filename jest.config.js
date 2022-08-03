@@ -3,6 +3,7 @@ const ignorePatterns = [
   '<rootDir>/lib/test/fixtures',
   '<rootDir>/dist/',
   '<rootDir>/lib/scripts',
+  '<rootDir>/migrations',
   '<rootDir>/.nomadic.js',
   '<rootDir>/.nomadic.ts',
 ];
