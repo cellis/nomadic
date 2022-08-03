@@ -103,7 +103,6 @@ describe('up', () => {
 
       it('does not modify or run existing migrations', async () => {
         // get old run_on for existing rows, compare to new run_on for existing_rows
-
         // get the first <ALREADY_HAVE> migrations
         const existingMigrationsResultBefore = 
           await db.query(GET_FIRST_N_MIGRATIONS, [ALREADY_HAVE]);

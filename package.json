@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "test:watch": "yarn fixtures:create && jest --watch ; yarn fixtures:drop",
-    "test": "yarn fixtures:create && jest ; yarn fixtures:drop",
+    "test:watch": "yarn fixtures:create && jest --runInBand --no-cache --watch ; yarn fixtures:drop",
+    "test": "yarn fixtures:create && jest --runInBand --no-cache; yarn fixtures:drop",
     "fixtures:create": "ts-node --files ./lib/scripts/createDatabase.ts",
     "fixtures:drop": "ts-node --files ./lib/scripts/dropDatabase.ts",
     "nomadic": "ts-node --files ./lib/cli.ts"

@@ -7,7 +7,7 @@ import { run as dropDatabase } from './dropDatabase';
 export async function run(watch: boolean) {
   const database = 'nomadic-test';
   const schema = 'nomadic';
-  const schema2 = 'nomadic_private';
+  const schema2 = 'nomadic_hidden';
   const config: PgTools.PgToolsConfig = {
     host: 'localhost',
     port: 5432,

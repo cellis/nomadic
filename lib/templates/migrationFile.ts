@@ -18,6 +18,10 @@ exports.up = async (client) => {
 
   const script = contents.replace(/__(.*?)__/g, (group1, group2) => process.env[group2] || '');
 
+  console.log('[NOMADIC]:', 'migrating up', '${upDownRelativePath}');
+
+  console.log(script);
+
   return client.query(script);
 };
 
@@ -26,6 +30,10 @@ exports.down = async (client) => {
   const contents = await fs.promises.readFile(filePath, { encoding: 'utf-8' });
 
   const script = contents.replace(/__(.*?)__/g, (group1, group2) => process.env[group2] || '');
+
+  console.log('[NOMADIC]:', 'migrating down', '${upDownRelativePath}');
+
+  console.log(script);
 
   return client.query(script);
 };

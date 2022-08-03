@@ -24,7 +24,7 @@ const date4 = new Date('2022-08-04T20:35:10.329Z');
 const date5 = new Date('2022-08-05T20:35:10.329Z');
 const date6 = new Date('2022-08-06T20:35:10.329Z');
 const date7 = new Date('2022-08-07T20:35:10.329Z');
-const comment = formatName('just-a-comment', date5);
+const comment = formatName('just-a-comment', date7);
 
 export const MIGRATION_ORDER = [
   {
@@ -105,7 +105,7 @@ export default function(migrationPath: string) {
         [`${createReceiptMigration}-up.sql`]: SQL_CREATE_RECEIPT_TABLE,
         [`${createReceiptMigration}-down.sql`]: SQL_DROP_RECEIPT_TABLE,
         [`${createCountryMigration}-up.sql`]: SQL_CREATE_COUNTRY_TABLE,
-        [`${createReceiptMigration}-down.sql`]: SQL_DROP_COUNTRY_TABLE,
+        [`${createCountryMigration}-down.sql`]: SQL_DROP_COUNTRY_TABLE,
         [`${createIssueMigration}-up.sql`]: SQL_CREATE_ISSUE_TABLE,
         [`${createIssueMigration}-down.sql`]: SQL_DROP_ISSUE_TABLE,
         [`${comment}-up.sql`]: SQL_COMMENT_TEMPLATE,

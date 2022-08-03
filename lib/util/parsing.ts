@@ -1,6 +1,12 @@
 import inflection from 'inflection';
 import lpad from './lpad';
 
+export function addDays(date: Date, days: number) {
+  const newDate = new Date(date.valueOf());
+  newDate.setDate(newDate.getDate() + days);
+  return newDate;
+}
+
 export function formatDate (date: Date) {
   return [
     date.getUTCFullYear(),
