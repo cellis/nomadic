@@ -95,7 +95,7 @@ async function runUpMigrations(
           migrationName
         }: ${error}`
       ));
-      console.log(`[nomadic]: Rolling back ${migrationName} and stopping.`);
+      console.log(`[nomadic]: Rolling back ${migrationName} and stopping…`);
 
       process.exit();
     }

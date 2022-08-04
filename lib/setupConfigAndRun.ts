@@ -18,7 +18,7 @@ export async function setupConfigAndRun(
   if (config.skip) {
     console.log(colors.cyan('[nomadic]: Skipping after hooks'));
   } else {
-    console.log('[nomadic]: Running hooks...');
+    console.log('[nomadic]: Running hooks…');
     await runHooks({ ...options, ...config }, action);
   }
 }

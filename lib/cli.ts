@@ -36,8 +36,8 @@ withDefaultOptions(program.command('up', {
 .addOption(portOpt)
 .argument('[count]', 'count to go up', 'all')
 .action((count, options: Nomadic.Options) => {
-  console.log('[nomadic]: Running up', count, 
-    count === 'all' ? 'migrations' : 'migration');
+  console.log('[nomadic]: Migrating up', count, 
+    (count === 'all' || count > 1) ? 'migrations…' : 'migration…');
   setupConfigAndRun(options, (args) => up(count, args), 'up');
 });
 
@@ -48,7 +48,7 @@ withDefaultOptions(program.command('down'))
 .argument('[count]', 'count to go down', 1)
 .action((count, options: Nomadic.Options) => {
   console.log('[nomadic]: Rolling back', count, 
-    count === 'all' ? 'migrations' : 'migration');
+    (count === 'all' || count > 1) ? 'migrations…' : 'migration…');
   setupConfigAndRun(options, (args) => down(count, args), 'down');
 });
 
