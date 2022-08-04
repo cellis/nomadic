@@ -80,7 +80,12 @@ async function runUpMigrations(
       // need this in a transaction so both the up and 
       // the insert of the migration row succeed or fail
       await client.query('BEGIN');
-      await migrationSql.up(client, args.transform);
+      await migrationSql.up({ 
+        // need to ensure binding here is still correct, or wrap in () => 
+        query: client.query.bind(client), 
+        // for backwards compatibility with db-migrate
+        runSql: client.query.bind(client), 
+      }, args.transform);
       await client.query(
         SQL_INSERT_MIGRATION,
         [`/${migrationName}`]

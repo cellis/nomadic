@@ -34,7 +34,12 @@ export const runDownN: RunN = async (
 
     try {
       await client.query('BEGIN');
-      migration.down(client, args.transform);
+      await migration.down({ 
+        // need to ensure binding here is still correct, or wrap in () => 
+        query: client.query.bind(client), 
+        // for backwards compatibility with db-migrate
+        runSql: client.query.bind(client), 
+      }, args.transform);
       await client.query(SQL_DELETE_MIGRATION, [id]);
       await client.query('COMMIT');
     } catch (error) {
