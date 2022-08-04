@@ -1,7 +1,10 @@
 {
   "name": "nomadic",
+  "description": "Super simple postgres migrations cli + library",
+  "repository": "github:cellis/nomadic",
   "version": "1.0.0",
   "main": "dist/index.js",
+  "files": ["dist/**/*"],
   "types": "./lib/nomadic.d.ts",
   "license": "MIT",
   "scripts": {
@@ -10,7 +13,12 @@
     "test": "yarn fixtures:create && jest --runInBand --no-cache; yarn fixtures:drop",
     "fixtures:create": "ts-node --files ./lib/scripts/createDatabase.ts",
     "fixtures:drop": "ts-node --files ./lib/scripts/dropDatabase.ts",
-    "nomadic": "ts-node --files ./lib/cli.ts"
+    "nomadic": "ts-node --files ./lib/cli.ts",
+    "prepare": "tsc",
+    "preversion": "yarn lint",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "prepublishOnly": "yarn test",
+    "postversion" : "git push && git push --tags"
   },
   "bin": {
     "nomadic": "./dist/cli.js"
