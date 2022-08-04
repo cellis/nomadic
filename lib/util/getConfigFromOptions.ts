@@ -5,7 +5,7 @@ import path from 'path';
 const log = debug('nomadic');
 
 export default async function 
-  getConfigFromOptions(options: Nomadic.Options): Promise<Nomadic.ConfigArgs> {
+  getConfigFromOptions(options: Nomadic.Options, fail = true): Promise<Nomadic.ConfigArgs> {
   let config: Partial<Nomadic.ConfigArgs> = {};
   try {
     if (options.config) {
@@ -52,7 +52,8 @@ export default async function
 
   keys.forEach((key: string) => {
     const val = config[key as keyof Nomadic.ConfigArgs];
-    if (val === null || val === undefined) {
+    if (fail && (val === null || val === undefined)) {
+      
       console.log(colors.cyan(
         `${passErr}\`${key}\` with ${flags[key]} ${orAdd}`
       ));
@@ -60,7 +61,7 @@ export default async function
     }
   });
 
-  if (keyErr) {
+  if (keyErr && fail) {
     process.exit();
   }
 
