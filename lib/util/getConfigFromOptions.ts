@@ -16,7 +16,7 @@ export default async function
     } else {
       // try to load config
       try {
-        const configPath = path.join(process.cwd(), 'nomadic.config.ts');
+        const configPath = path.join(process.cwd(), 'nomadic.config');
         // eslint-disable-next-line
         const loaded = require(configPath);
 
