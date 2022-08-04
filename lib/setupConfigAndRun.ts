@@ -6,7 +6,11 @@ import getConfigFromOptions from './util/getConfigFromOptions';
 
 
 type MigrateCallback = (args: Nomadic.ConfigArgs) => Promise<void>
-export async function setupConfigAndRun(options: Nomadic.Options,callback: MigrateCallback) {
+export async function setupConfigAndRun(
+  options: Nomadic.Options,
+  callback: MigrateCallback,
+  action: 'up' | 'down' | 'create'
+) {
   const config = await getConfigFromOptions(options);
 
   await callback(config);
@@ -15,6 +19,6 @@ export async function setupConfigAndRun(options: Nomadic.Options,callback: Migra
     console.log(colors.cyan('[nomadic]: Skipping after hooks'));
   } else {
     console.log('[nomadic]: Running hooks...');
-    await runHooks({ ...options, ...config });
+    await runHooks({ ...options, ...config }, action);
   }
 }

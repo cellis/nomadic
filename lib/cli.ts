@@ -5,9 +5,11 @@ import figlet from 'figlet';
 import { create } from './create';
 import { down } from './down';
 import { up } from './up';
-import { portOpt, skipOption, withDefaultOptions } from './util/input';
+import { migrationsOpt, portOpt, skipOption, withDefaultOptions } from './util/input';
 import { setupConfigAndRun } from './setupConfigAndRun';
 import getConfigFromOptions from './util/getConfigFromOptions';
+import runHooks from './runHooks';
+import createJSFromSqlFiles from './scripts/createJSFromSqlFiles';
 
 console.log(colors.magenta(figlet.textSync('nomadic')));
 
@@ -21,6 +23,10 @@ withDefaultOptions(program.command('create'))
     const args = await getConfigFromOptions(options, false);
     await create(name, args);
     console.log(colors.cyan(`[nomadic]: Created migration ${name}`));
+
+    if (!args.skip) {
+      await runHooks(args, 'create');
+    }
   });
   
 withDefaultOptions(program.command('up', {
@@ -32,7 +38,7 @@ withDefaultOptions(program.command('up', {
 .action((count, options: Nomadic.Options) => {
   console.log('[nomadic]: Running up', count, 
     count === 'all' ? 'migrations' : 'migration');
-  setupConfigAndRun(options, (args) => up(count, args));
+  setupConfigAndRun(options, (args) => up(count, args), 'up');
 });
 
 withDefaultOptions(program.command('down'))
@@ -43,8 +49,15 @@ withDefaultOptions(program.command('down'))
 .action((count, options: Nomadic.Options) => {
   console.log('[nomadic]: Rolling back', count, 
     count === 'all' ? 'migrations' : 'migration');
-  setupConfigAndRun(options, (args) => down(count, args));
+  setupConfigAndRun(options, (args) => down(count, args), 'down');
 });
+
+program.command('generate-from-sql')
+  .description('Create nomadic js migration files from sql file names')
+  .addOption(migrationsOpt)
+  .action((options: Nomadic.Options) => {
+    createJSFromSqlFiles(options);
+  });
 
 program.parse(process.argv);
 

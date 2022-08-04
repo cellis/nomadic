@@ -2,7 +2,7 @@ import colors from 'colors';
 import { Client } from 'pg';
 import getConfigFromOptions from './util/getConfigFromOptions';
 
-export default async function runHooks(options: Nomadic.Options) {
+export default async function runHooks(options: Nomadic.Options, action: 'up' | 'down' | 'create') {
 
   if (options.hooksFile) {
     // eslint-disable-next-line
@@ -22,17 +22,17 @@ export default async function runHooks(options: Nomadic.Options) {
 
     await client.connect();
 
-    if (options.hooks.create) {
+    if (options.hooks.create && action === 'create') {
       console.log(colors.magenta('[nomadic]: Running hooks for after create…'));
       await options.hooks.create(client);
     }
 
-    if (options.hooks.up) {
+    if (options.hooks.up && action === 'up') {
       console.log(colors.magenta('[nomadic]: Running hooks for after up…'));
       await options.hooks.up(client);
     }
 
-    if (options.hooks.down) {
+    if (options.hooks.down && action === 'down') {
       console.log(colors.magenta('[nomadic]: Running hooks for after down…'));
       await options.hooks.down(client);
     }
