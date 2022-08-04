@@ -15,9 +15,8 @@ async function getLaterMigrations(
 ) {
   // as the numbers are formatted, they're easy to sort
   // last run in the dark ages, should have no problems
-  let lastRunOn: Date = new Date('01-01-1000'); 
+  let lastRunName = '0';
   // might not have any migrations at all
-
   try {
     // first get the highest run so far
     const lastNResult = await client.query<MigrationRow>(
@@ -27,15 +26,14 @@ async function getLaterMigrations(
     if (lastNResult.rowCount > 0) {
       
       const lastRun = lastNResult.rows[0];
-      log('Last run %o',{ lastRun });
   
-      lastRunOn = parseDate(`${lastRun.name.slice(1).split('-').shift()}`);
+      lastRunName = `${lastRun.name.slice(1).split('-').shift()}`;
     }
   } catch (error) {
     console.error(error);
   }
 
-  const lastRunNum = parseInt(formatDate(lastRunOn));
+  const lastRunNum = parseInt(lastRunName);
 
   log('Last run %o', lastRunNum);
   // filter all files by the ones whose dates 

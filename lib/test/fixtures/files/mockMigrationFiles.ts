@@ -1,6 +1,6 @@
 import mock from 'mock-fs';
 import migrationFile from '../../../templates/migrationFile';
-import { formatName } from '../../../util/parsing';
+import { addDays, formatName } from '../../../util/parsing';
 import { 
   SQL_COMMENT_TEMPLATE, 
   SQL_CREATE_ACCOUNT_TABLE, 
@@ -17,13 +17,13 @@ import {
   SQL_DROP_RECEIPT_TABLE,
 } from '../../../util/sql';
 
-const date1 = new Date('2022-08-01T20:35:10.329Z');
-const date2 = new Date('2022-08-02T20:35:10.329Z');
-const date3 = new Date('2022-08-03T20:35:10.329Z');
-const date4 = new Date('2022-08-04T20:35:10.329Z');
-const date5 = new Date('2022-08-05T20:35:10.329Z');
-const date6 = new Date('2022-08-06T20:35:10.329Z');
-const date7 = new Date('2022-08-07T20:35:10.329Z');
+const date1 = addDays(new Date(), 1);
+const date2 = addDays(date1, 1);
+const date3 = addDays(date1, 2);
+const date4 = addDays(date1, 3);
+const date5 = addDays(date1, 4);
+const date6 = addDays(date1, 5);
+const date7 = addDays(date1, 6);
 const comment = formatName('just-a-comment', date7);
 
 export const MIGRATION_ORDER = [

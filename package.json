@@ -4,7 +4,9 @@
   "repository": "github:cellis/nomadic",
   "version": "1.0.0",
   "main": "dist/index.js",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "types": "./lib/nomadic.d.ts",
   "license": "MIT",
   "scripts": {
@@ -18,7 +20,7 @@
     "preversion": "yarn lint",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "prepublishOnly": "yarn test",
-    "postversion" : "git push && git push --tags"
+    "postversion": "git push && git push --tags"
   },
   "bin": {
     "nomadic": "./dist/cli.js"
@@ -27,6 +29,7 @@
     "pg": ">= 7 < 9"
   },
   "devDependencies": {
+    "@types/debug": "^4.1.7",
     "@types/dedent": "^0.7.0",
     "@types/inflection": "^1.13.0",
     "@types/jest": "^28.1.6",

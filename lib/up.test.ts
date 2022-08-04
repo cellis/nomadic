@@ -14,6 +14,14 @@ import mockMigrationFiles, { MIGRATION_ORDER } from
   './test/fixtures/files/mockMigrationFiles';
 import { getMigrationPath } from './test/helpers';
 import { dropMigrationsTable, dropTestTables } from './util/db';
+import debug from 'debug';
+
+const log = debug('nomadic');
+
+function getNonCommentTables() {
+  return MIGRATION_ORDER.filter(
+    m => m.name !== 'comment').map((m) => m.name);
+}
 
 describe('up', () => {
   const db = new Client({
@@ -120,12 +128,25 @@ describe('up', () => {
       });
 
       it('runs only the latest <count> migrations', async () => {
+        const allTablesAfterBeforeUp = await db.query(
+          FIND_MULTIPLE_TABLE_QUERY, [
+            getNonCommentTables(),
+          ]
+        );
+
+        log('tables after before up %o', allTablesAfterBeforeUp);
+
         await up(3, args);
 
         const tablesExpected = MIGRATION_ORDER.slice(0,-ALREADY_HAVE);
+
+        log('tables expected %o', tablesExpected);
+
         const tablesResult = await db.query(FIND_MULTIPLE_TABLE_QUERY,[
-          tablesExpected.map(m => m.name),
+          getNonCommentTables(),
         ]);
+
+        log('tables result %o', tablesResult.rows);
 
         expect(tablesResult.rowCount).toBe(tablesExpected.length);
       });
@@ -139,9 +160,15 @@ describe('up', () => {
       });
 
       it('runs all remaining migrations', async () => {
+        const migrationsResultBefore = await db.query(SQL_SELECT_MIGRATIONS);
+
+        log('migrations results before %o', migrationsResultBefore);
+        
         await up('all', args);
 
         const migrationsResult = await db.query(SQL_SELECT_MIGRATIONS);
+
+        log('migrations results after %o', migrationsResult);
 
         // expect to find all migrations
         expect(migrationsResult.rowCount).toBe(MIGRATION_ORDER.length);
@@ -152,9 +179,10 @@ describe('up', () => {
 
         const tablesResult = await db.query(FIND_MULTIPLE_TABLE_QUERY,
           // don't want to look for the comment
-          [MIGRATION_ORDER.filter(
-            m => m.name !== 'comment').map((m) => m.name)]
+          [getNonCommentTables()]
         );
+
+        log('tables found %o', tablesResult.rows);
         
         // expect to find all tables
         expect(tablesResult.rowCount).toBe(MIGRATION_ORDER.length-1);
