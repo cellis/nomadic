@@ -41,11 +41,20 @@ export default async function
   let keyErr = false;
   const keys = ['database', 'user', 'password', 'host', 'migrations', 'port'];
   
+  const flags: Record<string,string> = {
+    'database': '-d', 
+    'user': '-u', 
+    'password': '-p', 
+    'host': '-h', 
+    'migrations': '-m', 
+    'port': '--port',
+  };
+
   keys.forEach((key: string) => {
     const val = config[key as keyof Nomadic.ConfigArgs];
     if (val === null || val === undefined) {
       console.log(colors.cyan(
-        `${passErr}\`${key}\` with -${key.charAt(0)} ${orAdd}`
+        `${passErr}\`${key}\` with ${flags[key]} ${orAdd}`
       ));
       keyErr = true;
     }
