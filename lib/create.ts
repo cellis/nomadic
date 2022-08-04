@@ -17,6 +17,7 @@ export async function create(name: string, args: Nomadic.ConfigArgs) {
     await fs.promises.access(args.migrations, fs.constants.F_OK);
   } catch (error) {
     await fs.promises.mkdir(args.migrations, { recursive: true });
+    await fs.promises.mkdir(path.join(args.migrations, 'sqls'), { recursive: true });
   }
 
   await fs.promises.writeFile(
@@ -24,10 +25,10 @@ export async function create(name: string, args: Nomadic.ConfigArgs) {
     migrationFile(filePath));
   
   await fs.promises.writeFile(
-    path.join(args.migrations,'sql', downFile), 
+    path.join(args.migrations,'sqls', downFile), 
     SQL_COMMENT_TEMPLATE);
 
   await fs.promises.writeFile(
-    path.join(args.migrations,'sql', upFile), 
+    path.join(args.migrations,'sqls', upFile), 
     SQL_COMMENT_TEMPLATE);
 }

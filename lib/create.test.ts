@@ -47,7 +47,7 @@ describe('create', () => {
 
   it('creates an sql up file in the migrations/sql directory', async () => {
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
-      path.join(args.migrations, 'sql',
+      path.join(args.migrations, 'sqls',
         `${FORMATTED_DATE}-${MIGRATION_NAME}-up.sql`
       ), SQL_COMMENT_TEMPLATE
     );
@@ -55,7 +55,7 @@ describe('create', () => {
   
   it('creates an sql down file in the migrations/sql directory', async () => {
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
-      path.join(args.migrations, 'sql',
+      path.join(args.migrations, 'sqls',
         `${FORMATTED_DATE}-${MIGRATION_NAME}-down.sql`
       ), SQL_COMMENT_TEMPLATE
     );
