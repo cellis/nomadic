@@ -75,3 +75,12 @@ You can also run e.g. `yarn nomadic up 5` to migrate your db up 5 migrations.
 To go down a migration:
 `yarn nomadic down` will by default run 1 migration down at a time.
 You can also run e.g. `yarn nomadic down 5`.
+
+### Transforms
+
+If you want to transform all sql code, you can pass a `transform` [`(sql: string) => Promise<string>`] option either in the `nomadic.config.js` or in the library options. It takes an sql string and returns whatever you want. It is passed as a function to all of your `<name-of-migration>.js` `up` and `down` functions. So you can rewrite sql / interpolate environment variables if needed.
+
+### Hooks
+
+Hooks (see above) allow you to run cleanup tasks after migration operations are done. For instance you may want to dump the schema, restart your dev server, etc.
+
