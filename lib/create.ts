@@ -13,6 +13,12 @@ export async function create(name: string, args: Nomadic.ConfigArgs) {
   const upFile = `${filePath}-up.sql`;
   const jsFile = `${filePath}.js`;
 
+  try {
+    await fs.promises.access(args.migrations, fs.constants.F_OK);
+  } catch (error) {
+    await fs.promises.mkdir(args.migrations, { recursive: true });
+  }
+
   await fs.promises.writeFile(
     path.join(args.migrations, jsFile), 
     migrationFile(filePath));
