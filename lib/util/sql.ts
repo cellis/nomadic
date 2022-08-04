@@ -27,7 +27,7 @@ DELETE FROM migrations WHERE id = $1;
 `;
 
 export const SQL_INSERT_MIGRATION = `
-INSERT INTO public.migrations (name) VALUES ($1);
+INSERT INTO public.migrations (name, run_on) VALUES ($1, now());
 `;
 
 export const GET_FIRST_N_MIGRATIONS = `

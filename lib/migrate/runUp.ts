@@ -1,6 +1,6 @@
+import colors from 'colors';
 import path from 'path';
 import { Client } from 'pg';
-import { formatDate, parseDate } from '../util/parsing';
 import { GET_LAST_N_MIGRATIONS, SQL_INSERT_MIGRATION } from '../util/sql';
 import isCountAll from './isCountAll';
 import { Migration, MigrationRow, RunN } from './types';
@@ -93,6 +93,15 @@ async function runUpMigrations(
       await client.query('COMMIT');
     } catch (error) {
       await client.query('ROLLBACK');
+      log('Error up migration, rolling back %o', error);
+      console.log(colors.magenta(
+        `[nomadic]: Encountered an error while running ${
+          migrationName
+        }: ${error}`
+      ));
+      console.log(`[nomadic]: Rolling back ${migrationName} and stopping.`);
+
+      process.exit();
     }
     // require the file and run its exported `up` method,
     // passing in the client

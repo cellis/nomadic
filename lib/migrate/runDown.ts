@@ -3,6 +3,9 @@ import path from 'path';
 import { Client, QueryResult } from 'pg';
 import { GET_LAST_N_MIGRATIONS, SQL_DELETE_MIGRATION, SQL_GET_ALL_MIGRATIONS } from '../util/sql';
 import { Migration, MigrationRow, RunAll, RunN } from './types';
+import debug from 'debug';
+
+const log = debug('nomadic');
 
 export const runDownMigrations = async (
   migrations: QueryResult<MigrationRow>,
@@ -11,11 +14,11 @@ export const runDownMigrations = async (
 ) => {
   // get ids to drop
   const migrationFiles = migrations.rows.map(
-    (row) =>({ id: row.id, file: path.join(args.migrations, `${row.name}.js`) })
+    (row) =>({ name: row.name, id: row.id, file: path.join(args.migrations, `${row.name}.js`) })
   );
 
   for(const info of migrationFiles) {
-    const { file: migrationFile, id } = info;
+    const { file: migrationFile, id, name: migrationName } = info;
     // run all down in a transaction while deleting
     // eslint-disable-next-line
     const migration: Migration = require(migrationFile);
@@ -33,11 +36,15 @@ export const runDownMigrations = async (
     } catch (error) {
       await client.query('ROLLBACK');
 
-      console.log(
-        colors.cyan('[nomadic]: Error: could not run down for'), 
-        colors.magenta(migrationFile),
-        colors.cyan(`${error}`)
-      );
+      log('Error up migration, rolling back %o', error);
+      console.log(colors.magenta(
+        `[nomadic]: Encountered an error while running ${
+          migrationName
+        }: ${error}`
+      ));
+      console.log(`[nomadic]: Rolling back ${migrationName} and stopping.`);
+
+      process.exit();
     }
   }
 };
