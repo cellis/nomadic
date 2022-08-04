@@ -42,7 +42,8 @@ export default async function
   const keys = ['database', 'user', 'password', 'host', 'migrations', 'port'];
   
   keys.forEach((key: string) => {
-    if (!config[key as keyof Nomadic.ConfigArgs]) {
+    const val = config[key as keyof Nomadic.ConfigArgs];
+    if (val === null || val === undefined) {
       console.log(colors.cyan(
         `${passErr}\`${key}\` with -${key.charAt(0)} ${orAdd}`
       ));

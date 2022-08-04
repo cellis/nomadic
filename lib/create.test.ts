@@ -8,7 +8,8 @@ import { getMigrationPath } from './test/helpers';
 jest.mock('fs', () => ({
   promises: {
     writeFile: jest.fn(),
-    mkDir: jest.fn(),
+    mkdir: jest.fn(),
+    access: jest.fn(),
   },
 }));
     

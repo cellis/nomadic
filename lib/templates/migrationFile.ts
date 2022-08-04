@@ -12,11 +12,14 @@ exports.setup = function(options, seedLink) {
 };
 
 // note: client is an instance of node-pg Client
-exports.up = async (client) => {
+exports.up = async (client, transform) => {
   const filePath = path.join(__dirname, 'sqls','${upDownRelativePath}-up.sql');
-  const contents = await fs.promises.readFile(filePath, { encoding: 'utf-8' });
+  
+  let script = await fs.promises.readFile(filePath, { encoding: 'utf-8' });
 
-  const script = contents.replace(/__(.*?)__/g, (group1, group2) => process.env[group2] || '');
+  if (transform) {
+    script = await transform(script);
+  }
 
   console.log('[NOMADIC]:', 'migrating up', '${upDownRelativePath}');
 
@@ -25,11 +28,13 @@ exports.up = async (client) => {
   return client.query(script);
 };
 
-exports.down = async (client) => {
+exports.down = async (client, transform) => {
   const filePath = path.join(__dirname, 'sqls','${upDownRelativePath}-down.sql');
-  const contents = await fs.promises.readFile(filePath, { encoding: 'utf-8' });
+  let script = await fs.promises.readFile(filePath, { encoding: 'utf-8' });
 
-  const script = contents.replace(/__(.*?)__/g, (group1, group2) => process.env[group2] || '');
+  if (transform) {
+    script = await transform(script);
+  }
 
   console.log('[NOMADIC]:', 'migrating down', '${upDownRelativePath}');
 

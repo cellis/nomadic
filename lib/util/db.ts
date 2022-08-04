@@ -1,5 +1,6 @@
 import debug from 'debug';
 import { Client } from 'pg';
+import { MIGRATION_ORDER } from '../test/fixtures/files/mockMigrationFiles';
 import { 
   SQL_DROP_ACCOUNT_TABLE, 
   SQL_DROP_COUNTRY_TABLE, 
@@ -19,6 +20,10 @@ export async function dropMigrationsTable(db: Client) {
   }
 }
 
+export function getNonCommentTables() {
+  return MIGRATION_ORDER.filter(
+    m => m.name !== 'comment').map((m) => m.name);
+}
 
 export async function dropTestTables(db: Client) {
   try {

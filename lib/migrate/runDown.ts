@@ -34,7 +34,7 @@ export const runDownN: RunN = async (
 
     try {
       await client.query('BEGIN');
-      migration.down(client);
+      migration.down(client, args.transform);
       await client.query(SQL_DELETE_MIGRATION, [id]);
       await client.query('COMMIT');
     } catch (error) {

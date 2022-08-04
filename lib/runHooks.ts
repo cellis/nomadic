@@ -36,5 +36,7 @@ export default async function runHooks(options: Nomadic.Options) {
       console.log(colors.magenta('[NOMADIC]: Running hooks for after down…'));
       await options.hooks.down(client);
     }
+
+    await client.end();
   }
 }

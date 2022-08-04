@@ -80,7 +80,7 @@ async function runUpMigrations(
       // need this in a transaction so both the up and 
       // the insert of the migration row succeed or fail
       await client.query('BEGIN');
-      await migrationSql.up(client);
+      await migrationSql.up(client, args.transform);
       await client.query(
         SQL_INSERT_MIGRATION,
         [`/${migrationName}`]

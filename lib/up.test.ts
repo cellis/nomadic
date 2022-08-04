@@ -13,15 +13,10 @@ import {
 import mockMigrationFiles, { MIGRATION_ORDER } from 
   './test/fixtures/files/mockMigrationFiles';
 import { getMigrationPath } from './test/helpers';
-import { dropMigrationsTable, dropTestTables } from './util/db';
+import { dropMigrationsTable, dropTestTables, getNonCommentTables } from './util/db';
 import debug from 'debug';
 
 const log = debug('nomadic');
-
-function getNonCommentTables() {
-  return MIGRATION_ORDER.filter(
-    m => m.name !== 'comment').map((m) => m.name);
-}
 
 describe('up', () => {
   const db = new Client({

@@ -2,6 +2,7 @@ import { Command, Option } from 'commander';
 import path from 'path';
 
 export const skipOption = new Option('-s, --skip <boolean>', 'skip after hooks');
+skipOption.default(false);
 
 export const passwordOpt = new Option('-p, --password <string>', 'database password');
 passwordOpt.default('');
