@@ -39,7 +39,7 @@ export async function migrate(
       await runN(files,countOrAll, client, args);
     }
     
-    console.log('[nomadic]:',direction === 'up' ?
+    console.log('[nomadic]:',direction === 'down' ?
       'Rolled back' : 'Completed',countOrAll,'migrations.');
   }
 
