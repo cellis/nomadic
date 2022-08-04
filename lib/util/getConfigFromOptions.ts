@@ -16,13 +16,14 @@ export default async function
     } else {
       // try to load config
       try {
-        const configPath = path.join(process.cwd(), 'nomadic.config.js');
+        const configPath = path.join(process.cwd(), 'nomadic.config.ts');
         // eslint-disable-next-line
         const loaded = require(configPath);
 
         log('Loaded config from %s',configPath);
         config = { ...options,...loaded };
       } catch (error) {
+        log('Could not load config');
         // don't throw here, we handle later.
         config = options;
       }

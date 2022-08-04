@@ -12,7 +12,7 @@ export async function setupConfigAndRun(options: Nomadic.Options,callback: Migra
   await callback(config);
 
   if (config.skip) {
-    console.log(colors.cyan('[NOMADIC]: Skipping after hooks'));
+    console.log(colors.cyan('[nomadic]: Skipping after hooks'));
   } else {
     await runHooks(options);
   }

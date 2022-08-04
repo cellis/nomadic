@@ -20,7 +20,7 @@ withDefaultOptions(program.command('create'))
   .action(async (name: string, options: Nomadic.Options) => {
     const args = await getConfigFromOptions(options, false);
     await create(name, args);
-    console.log(colors.cyan(`[NOMADIC]: Created migration ${name}`));
+    console.log(colors.cyan(`[nomadic]: Created migration ${name}`));
   });
   
 withDefaultOptions(program.command('up', {
@@ -30,7 +30,8 @@ withDefaultOptions(program.command('up', {
 .addOption(portOpt)
 .argument('[count]', 'count to go up', 'all')
 .action((count, options: Nomadic.Options) => {
-  console.log('Running up', count, 'migration');
+  console.log('[nomadic]: Running up', count, 
+    count === 'all' ? 'migrations' : 'migration');
   setupConfigAndRun(options, (args) => up(count, args));
 });
 
@@ -40,6 +41,8 @@ withDefaultOptions(program.command('down'))
 .description('migrate database down')
 .argument('[count]', 'count to go down', 1)
 .action((count, options: Nomadic.Options) => {
+  console.log('[nomadic]: Rolling back', count, 
+    count === 'all' ? 'migrations' : 'migration');
   setupConfigAndRun(options, (args) => down(count, args));
 });
 

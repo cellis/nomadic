@@ -23,17 +23,17 @@ export default async function runHooks(options: Nomadic.Options) {
     await client.connect();
 
     if (options.hooks.create) {
-      console.log(colors.magenta('[NOMADIC]: Running hooks for after create…'));
+      console.log(colors.magenta('[nomadic]: Running hooks for after create…'));
       await options.hooks.create(client);
     }
 
     if (options.hooks.up) {
-      console.log(colors.magenta('[NOMADIC]: Running hooks for after up…'));
+      console.log(colors.magenta('[nomadic]: Running hooks for after up…'));
       await options.hooks.up(client);
     }
 
     if (options.hooks.down) {
-      console.log(colors.magenta('[NOMADIC]: Running hooks for after down…'));
+      console.log(colors.magenta('[nomadic]: Running hooks for after down…'));
       await options.hooks.down(client);
     }
 

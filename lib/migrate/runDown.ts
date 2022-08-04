@@ -1,28 +1,16 @@
 import colors from 'colors';
 import path from 'path';
-import { Client } from 'pg';
-import { GET_LAST_N_MIGRATIONS, SQL_DELETE_MIGRATION } from '../util/sql';
+import { Client, QueryResult } from 'pg';
+import { GET_LAST_N_MIGRATIONS, SQL_DELETE_MIGRATION, SQL_GET_ALL_MIGRATIONS } from '../util/sql';
 import { Migration, MigrationRow, RunAll, RunN } from './types';
 
-export const runDownN: RunN = async (
-  files: string[],
-  count: number, 
+export const runDownMigrations = async (
+  migrations: QueryResult<MigrationRow>,
   client: Client, 
   args: Nomadic.ConfigArgs
 ) => {
-  // const laterMigrations = await getLaterMigrations(
-  //   count,
-  //   files,
-  //   client
-  // );
-
-  // get last N migrations
-  const lastNMigrations = await client.query<MigrationRow>(
-    GET_LAST_N_MIGRATIONS,[count]
-  );
-
-  // find all the migration files 
-  const migrationFiles = lastNMigrations.rows.map(
+  // get ids to drop
+  const migrationFiles = migrations.rows.map(
     (row) =>({ id: row.id, file: path.join(args.migrations, `${row.name}.js`) })
   );
 
@@ -46,7 +34,7 @@ export const runDownN: RunN = async (
       await client.query('ROLLBACK');
 
       console.log(
-        colors.cyan('Error: could not run down for '), 
+        colors.cyan('[nomadic]: Error: could not run down for'), 
         colors.magenta(migrationFile),
         colors.cyan(`${error}`)
       );
@@ -54,12 +42,29 @@ export const runDownN: RunN = async (
   }
 };
 
+export const runDownN: RunN = async (
+  files: string[],
+  count: number, 
+  client: Client, 
+  args: Nomadic.ConfigArgs
+) => {
+  // get last N migrations
+  const migrations = await client.query<MigrationRow>(
+    GET_LAST_N_MIGRATIONS,[count]
+  );
+
+  return runDownMigrations(migrations, client, args);
+};
+
 export const runDownAll: RunAll = async (
   files: string[],
   client: Client, 
   args: Nomadic.ConfigArgs
 ) => {
-  return new Promise((resolve) => setTimeout(() => {
-    resolve();
-  },1000));
+  // drop all migrations
+  const migrations = await client.query<MigrationRow>(
+    SQL_GET_ALL_MIGRATIONS
+  );
+
+  return runDownMigrations(migrations, client, args);
 };

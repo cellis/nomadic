@@ -21,7 +21,7 @@ exports.up = async (client, transform) => {
     script = await transform(script);
   }
 
-  console.log('[NOMADIC]:', 'migrating up', '${upDownRelativePath}');
+  console.log('[nomadic]:', 'migrating up', '${upDownRelativePath}');
 
   console.log(script);
 
@@ -36,7 +36,7 @@ exports.down = async (client, transform) => {
     script = await transform(script);
   }
 
-  console.log('[NOMADIC]:', 'migrating down', '${upDownRelativePath}');
+  console.log('[nomadic]:', 'migrating down', '${upDownRelativePath}');
 
   console.log(script);
 

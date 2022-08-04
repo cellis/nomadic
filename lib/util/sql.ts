@@ -18,6 +18,10 @@ export const GET_LAST_N_MIGRATIONS = `
 select * from public.migrations order by run_on desc limit $1;
 `;
 
+export const SQL_GET_ALL_MIGRATIONS = `
+  select * from public.migrations order by run_on desc;
+`;
+
 export const SQL_DELETE_MIGRATION = `
 DELETE FROM migrations WHERE id = $1;
 `;

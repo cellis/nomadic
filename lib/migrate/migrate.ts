@@ -5,6 +5,7 @@ import isCountAll from './isCountAll';
 import { runDownAll, runDownN } from './runDown';
 import { runUpAll, runUpN } from './runUp';
 import { RunAll, RunN } from './types';
+import debug from 'debug';
 
 export async function migrate(
   countOrAll: string | number, 
@@ -29,7 +30,7 @@ export async function migrate(
   const files = await getMigrationFilesToRun(args);
 
   if (!files.length) {
-    console.log('No migrations to run');
+    console.log('[nomadic]: No migrations to run');
   } else {
     // get highest run migration in migrations table
     if (isCountAll(countOrAll)) {
@@ -37,7 +38,9 @@ export async function migrate(
     } else {
       await runN(files,countOrAll, client, args);
     }
-
+    
+    console.log('[nomadic]:',direction === 'up' ?
+      'Rolled back' : 'Completed',countOrAll,'migrations.');
   }
 
   await client.end();

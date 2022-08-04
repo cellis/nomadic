@@ -3,10 +3,10 @@ import { Client } from 'pg';
 import { up } from './up';
 import mock from 'mock-fs';
 import { 
-  MIGRATIONS_TABLE, 
+  MIGRATIONS_TABLE, SQL_GET_ALL_MIGRATIONS, 
 } from './util/sql';
 
-import mockMigrationFiles from 
+import mockMigrationFiles, { MIGRATION_ORDER } from 
   './test/fixtures/files/mockMigrationFiles';
 import { getMigrationPath } from './test/helpers';
 import { dropMigrationsTable, dropTestTables } from './util/db';
@@ -46,6 +46,23 @@ describe('down', () => {
     return db.end();
   });
 
+  describe('count is all and have migrations', () => {
+    const ALREADY_HAVE = MIGRATION_ORDER.length;
+    beforeEach(async () => {
+      await dropMigrationsTable(db);
+      await dropTestTables(db);
+      await up(ALREADY_HAVE, args);
+    });
+
+    it('removes all migrations', async () => {
+      await down('all', args);
+
+      const migrations = await db.query(SQL_GET_ALL_MIGRATIONS);
+
+      expect(migrations.rowCount).toBe(0);
+    });
+  });
+
   describe('count is 2 and already have 2', () => {
     const ALREADY_HAVE = 4;
     beforeEach(async () => {
@@ -59,7 +76,7 @@ describe('down', () => {
       await down(2, args);
 
       // ensure that going down 2 leaves migrations with 2 rows
-      const migrations = await db.query('SELECT * from migrations');
+      const migrations = await db.query(SQL_GET_ALL_MIGRATIONS);
 
       expect(migrations.rowCount).toBe(2);
     });
