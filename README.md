@@ -49,8 +49,16 @@ module.exports = {
 
 
 ## Usage
+
+### CLI Usage
 ```sh
 $ yarn nomadic create hello-world;  yarn nomadic down;
+```
+
+### Library Usage
+```typescript
+import { up, down, create, migrate } from 'nomadic';
+import { Nomadic } from 'nomadic/lib/nomadic';
 ```
 
 ### Creating migrations
