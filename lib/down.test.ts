@@ -11,6 +11,7 @@ import mockMigrationFiles, { MIGRATION_ORDER } from
 import { getMigrationPath } from './test/helpers';
 import { dropMigrationsTable, dropTestTables } from './util/db';
 import { down } from './down';
+import { Nomadic } from './nomadic';
 
 describe('down', () => {
   const db = new Client({

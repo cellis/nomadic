@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { getMigrationSqlFiles } from '../migrate/getMigrationFilesToRun';
+import { Nomadic } from '../nomadic';
 import migrationFile from '../templates/migrationFile';
 import getConfigFromOptions from '../util/getConfigFromOptions';
 

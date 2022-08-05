@@ -1,4 +1,5 @@
 import { Client } from 'pg';
+import { Nomadic } from '../nomadic';
 
 export interface RunN {
   (

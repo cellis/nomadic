@@ -1,8 +1,19 @@
+import * as nomadic from './index';
+
 declare namespace Nomadic {
   /**
    * An instance of pg.Client 
    */
   type Action = 'up' | 'create' | 'down';
+
+  // eslint-disable-next-line
+  export import up = nomadic.up;
+  // eslint-disable-next-line
+  export import down = nomadic.down;
+  // eslint-disable-next-line
+  export import create = nomadic.create;
+  // eslint-disable-next-line
+  export import migrate = nomadic.down;
 
   interface Result<T> {
     rows: T[],

@@ -2,6 +2,7 @@ import mock from 'mock-fs';
 import path from 'path';
 import { Client } from 'pg';
 import { down } from './down';
+import { Nomadic } from './nomadic';
 import { setupConfigAndRun } from './setupConfigAndRun';
 import mockMigrationFiles from './test/fixtures/files/mockMigrationFiles';
 import { getMigrationPath } from './test/helpers';

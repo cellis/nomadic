@@ -10,6 +10,7 @@ import { setupConfigAndRun } from './setupConfigAndRun';
 import getConfigFromOptions from './util/getConfigFromOptions';
 import runHooks from './runHooks';
 import createJSFromSqlFiles from './scripts/createJSFromSqlFiles';
+import { Nomadic } from './nomadic';
 
 console.log(colors.magenta(figlet.textSync('nomadic')));
 

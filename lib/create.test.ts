@@ -4,6 +4,7 @@ import path from 'path';
 import migrationFile from './templates/migrationFile';
 import { SQL_COMMENT_TEMPLATE } from './util/sql';
 import { getMigrationPath } from './test/helpers';
+import { Nomadic } from './nomadic';
 
 jest.mock('fs', () => ({
   promises: {

@@ -1,4 +1,5 @@
 import colors from 'colors';
+import { Nomadic } from './nomadic';
 import runHooks from './runHooks';
 import getConfigFromOptions from './util/getConfigFromOptions';
 

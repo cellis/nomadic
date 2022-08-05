@@ -15,6 +15,7 @@ import mockMigrationFiles, { MIGRATION_ORDER } from
 import { getMigrationPath } from './test/helpers';
 import { dropMigrationsTable, dropTestTables, getNonCommentTables } from './util/db';
 import debug from 'debug';
+import { Nomadic } from './nomadic';
 
 const log = debug('nomadic');
 

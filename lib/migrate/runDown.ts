@@ -4,6 +4,7 @@ import { Client, QueryResult } from 'pg';
 import { GET_LAST_N_MIGRATIONS, SQL_DELETE_MIGRATION, SQL_GET_ALL_MIGRATIONS } from '../util/sql';
 import { Migration, MigrationRow, RunAll, RunN } from './types';
 import debug from 'debug';
+import { Nomadic } from '../nomadic';
 
 const log = debug('nomadic');
 

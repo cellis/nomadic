@@ -5,6 +5,7 @@ import { GET_LAST_N_MIGRATIONS, SQL_INSERT_MIGRATION } from '../util/sql';
 import isCountAll from './isCountAll';
 import { Migration, MigrationRow, RunN } from './types';
 import debug from 'debug';
+import { Nomadic } from '../nomadic';
 
 const log = debug('nomadic');
 

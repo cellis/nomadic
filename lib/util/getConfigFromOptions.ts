@@ -1,6 +1,7 @@
 import colors from 'colors';
 import debug from 'debug';
 import path from 'path';
+import { Nomadic } from '../nomadic';
 
 const log = debug('nomadic');
 

@@ -2,7 +2,7 @@
   "name": "nomadic",
   "description": "Super simple postgres migrations cli + library",
   "repository": "github:cellis/nomadic",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "main": "dist/index.js",
   "files": [
     "dist/**/*"
