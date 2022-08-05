@@ -1,4 +1,4 @@
-export { create } from './create';
-export { up } from './up';
-export { down } from './down';
-export { migrate } from './migrate/migrate';
+export * from './create';
+export * from './up';
+export * from './down';
+export * from './migrate/migrate';
