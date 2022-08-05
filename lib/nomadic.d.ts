@@ -1,8 +1,3 @@
-export { create } from './create';
-export { up } from './up';
-export { down } from './down';
-export { migrate } from './migrate/migrate';
-
 export namespace Nomadic {
   /**
    * An instance of pg.Client 
@@ -11,11 +6,11 @@ export namespace Nomadic {
 
   // eslint-disable-next-lin
 
-  interface Result<T> {
+  export interface Result<T> {
     rows: T[],
     rowCount: number;
   }
-  interface Client {
+  export interface Client {
     query: <T = any>(sql: string, args?: any[]) => Promise<Result<T>>
   }
   export interface Hooks {
