@@ -2,10 +2,11 @@
   "name": "nomadic",
   "description": "Super simple postgres migrations cli + library",
   "repository": "github:cellis/nomadic",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "main": "dist/index.js",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "src/**/*"
   ],
   "types": "./lib/index.ts",
   "license": "MIT",
