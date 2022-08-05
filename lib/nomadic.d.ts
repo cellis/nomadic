@@ -7,7 +7,7 @@ export namespace Nomadic {
   /**
    * An instance of pg.Client 
    */
-  type Action = 'up' | 'create' | 'down';
+  export type Action = 'up' | 'create' | 'down';
 
   // eslint-disable-next-lin
 
@@ -18,17 +18,17 @@ export namespace Nomadic {
   interface Client {
     query: <T = any>(sql: string, args?: any[]) => Promise<Result<T>>
   }
-  interface Hooks {
+  export interface Hooks {
     up?: (client: Client) => Promise<void>;
     down?: (client: Client) => Promise<void>;
     create?: (client: Client) => Promise<void>;
   }
 
-  type TransformFn = (sql: string) => Promise<string> | string
-  interface Transform {
+  export type TransformFn = (sql: string) => Promise<string> | string
+  export interface Transform {
     transform?: TransformFn
   }
-  type Options = {
+  export type Options = {
     database?: string;
     migrations?: string;
     host?: string;
@@ -43,7 +43,7 @@ export namespace Nomadic {
   } & Transform;
   // 
     // 'config' | 'action' | 'count' | 'hooksFile' | 'hooks' | 'transform'
-  type ConfigArgs = Required<Pick<Options, 
+  export type ConfigArgs = Required<Pick<Options, 
     'database' | 
     'password' | 
     'host' | 
