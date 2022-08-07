@@ -12,7 +12,7 @@ export async function setupConfigAndRun(
 ) {
   const config = await getConfigFromOptions(options);
 
-  await runPreHooks(options, action);
+  await runPreHooks(config, action);
 
   await callback(config);
 
