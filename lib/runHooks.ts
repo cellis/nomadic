@@ -3,7 +3,7 @@ import { Client } from 'pg';
 import { Nomadic } from './nomadic';
 import getConfigFromOptions from './util/getConfigFromOptions';
 
-export default async function runHooks(options: Nomadic.Options, action: 'up' | 'down' | 'create') {
+export default async function runHooks(options: Nomadic.Options, action: Nomadic.Action) {
 
   if (options.hooksFile) {
     // eslint-disable-next-line

@@ -33,8 +33,9 @@ export namespace Nomadic {
     config?: string;
     skip?: boolean;
     hooksFile?: string;
+    preHooksFile?: string;
     hooks?: Hooks;
-    
+    preHooks?: Hooks;
   } & Transform;
   // 
     // 'config' | 'action' | 'count' | 'hooksFile' | 'hooks' | 'transform'

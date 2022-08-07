@@ -11,6 +11,7 @@ import getConfigFromOptions from './util/getConfigFromOptions';
 import runHooks from './runHooks';
 import createJSFromSqlFiles from './scripts/createJSFromSqlFiles';
 import { Nomadic } from './nomadic';
+import runPreHooks from './runPreHooks';
 
 console.log(colors.magenta(figlet.textSync('nomadic')));
 
@@ -22,6 +23,11 @@ withDefaultOptions(program.command('create'))
   .argument('<name>', 'name of the migration')
   .action(async (name: string, options: Nomadic.Options) => {
     const args = await getConfigFromOptions(options, false);
+
+    if (!args.skip) {
+      await runPreHooks(args, 'create');
+    }
+
     await create(name, args);
     console.log(colors.cyan(`[nomadic]: Created migration ${name}`));
 

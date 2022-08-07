@@ -1,18 +1,18 @@
 import colors from 'colors';
 import { Nomadic } from './nomadic';
 import runHooks from './runHooks';
+import runPreHooks from './runPreHooks';
 import getConfigFromOptions from './util/getConfigFromOptions';
-
-// eslint-disable-next-line
-
 
 type MigrateCallback = (args: Nomadic.ConfigArgs) => Promise<void>
 export async function setupConfigAndRun(
   options: Nomadic.Options,
   callback: MigrateCallback,
-  action: 'up' | 'down' | 'create'
+  action: Nomadic.Action
 ) {
   const config = await getConfigFromOptions(options);
+
+  await runPreHooks(options, action);
 
   await callback(config);
 
