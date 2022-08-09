@@ -32,9 +32,11 @@ export default async function
 
     
   } catch (error) {
+    console.log(colors.cyan(`[nomadic]: Encountered error in config ${error}`));
     // eslint-disable-next-line 
     // @ts-ignore
-    log(`Error: ${error.message}`);  
+    log(`Error: ${error.message}`);
+    process.exit();
   }
 
   const passErr = 'Error: you must either pass a ';
