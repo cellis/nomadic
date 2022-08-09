@@ -24,7 +24,9 @@ export default async function
         log('Loaded config from %s',configPath);
         config = { ...options,...loaded };
       } catch (error) {
-        log('Could not load config');
+        log('Could not load config %o', error);
+
+        console.log(colors.cyan(`[nomadic]: Encountered error in config ${error}`));
         // don't throw here, we handle later.
         config = options;
       }
