@@ -13,7 +13,7 @@ export async function setupConfigAndRun(
   const config = await getConfigFromOptions(options);
 
   if (options.skip) {
-    console.log(colors.cyan('[nomadic]: Skipping after hooks'));
+    console.log(colors.cyan('[nomadic]: Skipping prehooks'));
   } else {
     await runPreHooks(config, action);
   }
@@ -21,7 +21,7 @@ export async function setupConfigAndRun(
   await callback(config);
 
   if (options.skip) {
-    console.log(colors.cyan('[nomadic]: Skipping after hooks'));
+    console.log(colors.cyan('[nomadic]: Skipping hooks'));
   } else {
     await runHooks({ ...options, ...config }, action);
   }
