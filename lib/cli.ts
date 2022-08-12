@@ -24,8 +24,12 @@ withDefaultOptions(program.command('create'))
   .action(async (name: string, options: Nomadic.Options) => {
     const args = await getConfigFromOptions(options, false);
 
+
+
     if (!args.skip) {
       await runPreHooks(args, 'create');
+    } else {
+      console.log(colors.cyan('[nomadic]: Skipping prehooks'));
     }
 
     await create(name, args);
@@ -33,6 +37,8 @@ withDefaultOptions(program.command('create'))
 
     if (!args.skip) {
       await runHooks(args, 'create');
+    } else {
+      console.log(colors.cyan('[nomadic]: Skipping hooks'));
     }
   });
   

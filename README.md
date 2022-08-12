@@ -9,6 +9,19 @@ yarn install nomadic
 ```
 A simple postgres migration tool built for both CLI and library usage.
 
+## Usage
+
+### CLI Usage
+```sh
+$ yarn nomadic create hello-world;  yarn nomadic; yarn nomadic down;
+```
+
+### Library Usage
+```typescript
+import { up, down, create, migrate } from 'nomadic';
+import { Nomadic } from 'nomadic/lib/nomadic';
+```
+
 ## Configuration
 
 You can configure nomadic in 3 ways.
@@ -32,6 +45,17 @@ module.exports = {
   port: 5432,
   user: 'postgres',
   password: '',
+  preHooks: { // optional prehooks
+    up: async (client) => {
+      //...do something before all UP migrations are run here
+    },
+    down: async (client) => {
+      //...do something before all DOWN migrations are run here
+    },
+    create: async (client) => {
+      //...do something before running create here
+    }
+  },
   hooks: { // optional hooks
     // client is an instance of pg.Client
     up: async (client) => {
@@ -45,20 +69,6 @@ module.exports = {
     }
   }
 }
-```
-
-
-## Usage
-
-### CLI Usage
-```sh
-$ yarn nomadic create hello-world;  yarn nomadic down;
-```
-
-### Library Usage
-```typescript
-import { up, down, create, migrate } from 'nomadic';
-import { Nomadic } from 'nomadic/lib/nomadic';
 ```
 
 ### Creating migrations
@@ -88,7 +98,7 @@ You can also run e.g. `yarn nomadic down 5`.
 
 If you want to transform all sql code, you can pass a `transform` [`(sql: string) => Promise<string>`] option either in the `nomadic.config.js` or in the library options. It takes an sql string and returns whatever you want. It is passed as a function to all of your `<name-of-migration>.js` `up` and `down` functions. So you can rewrite sql / interpolate environment variables if needed.
 
-### Hooks & PreHooks ( 0.1.22 )
+### Hooks & PreHooks ( 0.1.25 )
 
 Hooks (see above) allow you to run cleanup tasks after migration operations are done. For instance you may want to dump the schema, restart your dev server, etc.
 
