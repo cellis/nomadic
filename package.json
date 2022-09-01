@@ -2,7 +2,7 @@
   "name": "nomadic",
   "description": "Super simple postgres migrations cli + library",
   "repository": "github:cellis/nomadic",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "main": "dist/index.js",
   "files": [
     "dist/**/*",
@@ -29,6 +29,14 @@
   "peerDependencies": {
     "pg": ">= 7 < 9"
   },
+  "keywords": [
+    "migrate",
+    "db",
+    "postgres",
+    "migration",
+    "database",
+    "sql"
+  ],
   "devDependencies": {
     "@types/debug": "^4.1.7",
     "@types/dedent": "^0.7.0",
@@ -44,7 +52,6 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-transform-assets-import-to-string": "^1.2.0",
     "chokidar": "^3.5.3",
-    "colors": "^1.4.0",
     "dedent": "^0.7.0",
     "del": "^7.0.0",
     "eslint": "^7.22.0",
@@ -72,6 +79,7 @@
   },
   "dependencies": {
     "@types/figlet": "^1.5.4",
+    "colors": "^1.4.0",
     "commander": "^9.4.0",
     "debug": "^4.3.4",
     "figlet": "^1.5.2",
