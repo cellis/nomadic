@@ -6,6 +6,8 @@ import isCountAll from './isCountAll';
 import { Migration, MigrationRow, RunN } from './types';
 import debug from 'debug';
 import { Nomadic } from '../nomadic';
+import { readFile } from 'fs/promises';
+import getQueryErrorLine from '../util/getQueryErrorLine';
 
 const log = debug('nomadic');
 
@@ -88,15 +90,24 @@ async function runUpMigrations(
         [`/${migrationName}`]
       );
       await client.query('COMMIT');
-    } catch (error) {
+    } catch (error: any) {
       await client.query('ROLLBACK');
-      log('Error up migration, rolling back %o', error);
+       // find the script
+      const errScript = await readFile(path.join(
+        args.migrations, 'sqls', `${migrationName}-up.sql`));
+      const errScriptTransformed = args.transform ? 
+        await args.transform(errScript.toString()) : errScript.toString();
+      const errLine = getQueryErrorLine(errScriptTransformed, error);
+      
+      log('Error %s in up migration, rolling back. line: %s', 
+      error.message, error.line);
+      
+      
       console.log(colors.magenta(
         `[nomadic]: Encountered an error while running ${
           migrationName
-        }: ${error}`
+        }-up.sql: ${error.message} at line ${errLine}`
       ));
-      console.log(`[nomadic]: Rolling back ${migrationName} and stopping…`);
 
       process.exit();
     }

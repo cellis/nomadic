@@ -18,6 +18,9 @@ module.exports = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
+  moduleNameMapper: {
+    'fs/promises': '<rootDir>/node_modules/fs-extra/lib/fs',
+  },
   collectCoverage: true,
   coveragePathIgnorePatterns: ignorePatterns,
   testPathIgnorePatterns: ignorePatterns,
