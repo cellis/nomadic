@@ -1,7 +1,7 @@
 import colors from 'colors';
 import path from 'path';
 import { Client } from 'pg';
-import { GET_LAST_N_MIGRATIONS, SQL_INSERT_MIGRATION } from '../util/sql';
+import { GET_LAST_N_MIGRATIONS, MIGRATIONS_TABLE, SQL_INSERT_MIGRATION } from '../util/sql';
 import isCountAll from './isCountAll';
 import { Migration, MigrationRow, RunN } from './types';
 import debug from 'debug';
@@ -14,7 +14,8 @@ const log = debug('nomadic');
 async function getLaterMigrations(
   countOrAll: number | string, 
   files: string[],
-  client: Client 
+  client: Client,
+  args: Nomadic.ConfigArgs
 ) {
   // as the numbers are formatted, they're easy to sort
   // last run in the dark ages, should have no problems
@@ -23,7 +24,8 @@ async function getLaterMigrations(
   try {
     // first get the highest run so far
     const lastNResult = await client.query<MigrationRow>(
-      GET_LAST_N_MIGRATIONS, [1] // limit 1
+      GET_LAST_N_MIGRATIONS.replace(MIGRATIONS_TABLE, 
+        args.migrationsTable || MIGRATIONS_TABLE), [1] // limit 1
     );
 
     if (lastNResult.rowCount > 0) {
@@ -86,7 +88,8 @@ async function runUpMigrations(
 
       await migrationSql.up(client, args.transform);
       await client.query(
-        SQL_INSERT_MIGRATION,
+        SQL_INSERT_MIGRATION.replace(MIGRATIONS_TABLE, 
+          args.migrationsTable || MIGRATIONS_TABLE),
         [`/${migrationName}`]
       );
       await client.query('COMMIT');
@@ -126,7 +129,8 @@ export const runUpN: RunN = async (
   const laterMigrations = await getLaterMigrations(
     count,
     files,
-    client
+    client,
+    args
   );
 
   await runUpMigrations(laterMigrations, args, client);
@@ -140,7 +144,8 @@ export async function runUpAll(
   const laterMigrations = await getLaterMigrations(
     'all',
     files,
-    client
+    client,
+    args
   );
 
   await runUpMigrations(laterMigrations, args, client);

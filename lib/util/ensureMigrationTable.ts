@@ -1,5 +1,5 @@
 import { Client } from 'pg';
-import { FIND_MIGRATION_TABLE_QUERY, SQL_CREATE_MIGRATIONS_TABLE } from './sql';
+import { FIND_MIGRATION_TABLE_QUERY, MIGRATIONS_TABLE, SQL_CREATE_MIGRATIONS_TABLE } from './sql';
 import { Nomadic } from '../nomadic';
 
 export default async function(client: Client, args: Nomadic.ConfigArgs) {
@@ -7,6 +7,7 @@ export default async function(client: Client, args: Nomadic.ConfigArgs) {
     [args.migrationsTable || 'migrations']);
 
   if (migrationTableResult.rowCount === 0) {
-    await client.query(SQL_CREATE_MIGRATIONS_TABLE);
+    await client.query(SQL_CREATE_MIGRATIONS_TABLE
+      .replace(MIGRATIONS_TABLE, args.migrationsTable || 'migrations'));
   }
 }

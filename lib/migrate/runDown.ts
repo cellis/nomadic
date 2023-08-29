@@ -1,7 +1,12 @@
 import colors from 'colors';
 import path from 'path';
 import { Client, QueryResult } from 'pg';
-import { GET_LAST_N_MIGRATIONS, SQL_DELETE_MIGRATION, SQL_GET_ALL_MIGRATIONS } from '../util/sql';
+import { 
+  GET_LAST_N_MIGRATIONS, 
+  MIGRATIONS_TABLE, 
+  SQL_DELETE_MIGRATION, 
+  SQL_GET_ALL_MIGRATIONS, 
+} from '../util/sql';
 import { Migration, MigrationRow, RunAll, RunN } from './types';
 import debug from 'debug';
 import { Nomadic } from '../nomadic';
@@ -29,7 +34,9 @@ export const runDownMigrations = async (
     try {
       await client.query('BEGIN');
       await migration.down(client, args.transform);
-      await client.query(SQL_DELETE_MIGRATION, [id]);
+      await client.query(SQL_DELETE_MIGRATION
+        .replace(MIGRATIONS_TABLE, 
+          args.migrationsTable || MIGRATIONS_TABLE), [id]);
       await client.query('COMMIT');
     } catch (error: any) {
       await client.query('ROLLBACK');
@@ -65,7 +72,8 @@ export const runDownN: RunN = async (
 ) => {
   // get last N migrations
   const migrations = await client.query<MigrationRow>(
-    GET_LAST_N_MIGRATIONS,[count]
+    GET_LAST_N_MIGRATIONS.replace(MIGRATIONS_TABLE, 
+      args.migrationsTable || MIGRATIONS_TABLE),[count]
   );
 
   return runDownMigrations(migrations, client, args);
@@ -79,6 +87,8 @@ export const runDownAll: RunAll = async (
   // drop all migrations
   const migrations = await client.query<MigrationRow>(
     SQL_GET_ALL_MIGRATIONS
+      .replace(MIGRATIONS_TABLE, 
+        args.migrationsTable || MIGRATIONS_TABLE)
   );
 
   return runDownMigrations(migrations, client, args);
