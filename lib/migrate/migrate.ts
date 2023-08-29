@@ -5,7 +5,6 @@ import isCountAll from './isCountAll';
 import { runDownAll, runDownN } from './runDown';
 import { runUpAll, runUpN } from './runUp';
 import { RunAll, RunN } from './types';
-import debug from 'debug';
 import { Nomadic } from '../nomadic';
 
 export async function migrate(
@@ -26,7 +25,7 @@ export async function migrate(
 
   await client.connect();
   
-  await ensureMigrationTable(client);
+  await ensureMigrationTable(client, args);
 
   const files = await getMigrationFilesToRun(args);
 

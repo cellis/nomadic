@@ -26,6 +26,7 @@ export namespace Nomadic {
   export type Options = {
     database?: string;
     migrations?: string;
+    migrationsTable?: string;
     host?: string;
     user?: string;
     password?: string;
@@ -39,7 +40,7 @@ export namespace Nomadic {
   } & Transform;
   // 
     // 'config' | 'action' | 'count' | 'hooksFile' | 'hooks' | 'transform'
-  export type ConfigArgs = Required<Pick<Options, 
+  export type ConfigArgs = Pick<Options, 'migrationsTable'> & Required<Pick<Options, 
     'database' | 
     'password' | 
     'host' | 

@@ -18,6 +18,7 @@ jest.mock('fs', () => ({
 describe('create', () => {
   const args: Nomadic.ConfigArgs = {
     migrations: getMigrationPath(),
+    migrationsTable: 'migrations',
     database: 'nomadic-test',
     host: 'localhost',
     skip: true,
