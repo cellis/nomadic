@@ -42,7 +42,7 @@ module.exports = {
   host: 'localhost', // url to your db server
   database: 'nomadic', 
   migrations: 'migrations', // directory you want migrations placed in, relative to current working directory
-  migrationsTable: 'migrations', // defaults to 'migrations'
+  migrationsTable: 'migrations', // Must be on the "public" schema. Defaults to 'migrations'
   port: 5432,
   user: 'postgres',
   password: '',
