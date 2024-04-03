@@ -1,4 +1,4 @@
-import { Client } from 'pg';
+import { Client, ClientConfig } from 'pg';
 import ensureMigrationTable from '../util/ensureMigrationTable';
 import getMigrationFilesToRun from './getMigrationFilesToRun';
 import isCountAll from './isCountAll';
@@ -12,13 +12,20 @@ export async function migrate(
   args: Nomadic.ConfigArgs,
   direction: 'up' | 'down'
 ) {
-  const client = new Client({
+
+  const clientArgs: ClientConfig = {
     database: args.database,
     host: args.host,
     port: args.port,
     user: args.user,
     password: args.password,
-  });
+  };
+
+  if (args.ssl) {
+    clientArgs.ssl = args.ssl;
+  }
+
+  const client = new Client(clientArgs);
 
   const runAll: RunAll = direction === 'up' ? runUpAll : runDownAll;
   const runN: RunN = direction === 'up' ? runUpN : runDownN;

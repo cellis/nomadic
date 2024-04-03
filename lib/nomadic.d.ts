@@ -29,6 +29,10 @@ export namespace Nomadic {
     migrationsTable?: string;
     host?: string;
     user?: string;
+    ssl?: boolean | {
+      rejectUnauthorized?: boolean;
+      ca?: string;
+    };
     password?: string;
     port?: number;
     config?: string;
@@ -40,7 +44,7 @@ export namespace Nomadic {
   } & Transform;
   // 
     // 'config' | 'action' | 'count' | 'hooksFile' | 'hooks' | 'transform'
-  export type ConfigArgs = Pick<Options, 'migrationsTable'> & Required<Pick<Options, 
+  export type ConfigArgs = Pick<Options, 'migrationsTable' | 'ssl'> & Required<Pick<Options, 
     'database' | 
     'password' | 
     'host' | 
