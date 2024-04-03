@@ -1,5 +1,5 @@
 import colors from 'colors';
-import { Client } from 'pg';
+import { Client, ClientConfig } from 'pg';
 import { Nomadic } from './nomadic';
 import getConfigFromOptions from './util/getConfigFromOptions';
 
@@ -12,13 +12,19 @@ export default async function runPreHooks(options: Nomadic.Options, action: Noma
 
   if (options.preHooks) {
     const args = await getConfigFromOptions(options);
-    const client = new Client({
+    const clientConfig: ClientConfig = {
       database: args.database,
       host: args.host,
       port: args.port,
       user: args.user,
       password: args.password,
-    });
+    };
+
+    if (args.ssl) {
+      clientConfig.ssl = args.ssl;
+    }
+
+    const client = new Client(clientConfig);
 
     await client.connect();
 

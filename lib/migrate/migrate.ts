@@ -12,7 +12,7 @@ export async function migrate(
   args: Nomadic.ConfigArgs,
   direction: 'up' | 'down'
 ) {
-
+  console.log('args', args);
   const clientArgs: ClientConfig = {
     database: args.database,
     host: args.host,
