@@ -84,17 +84,32 @@ async function runUpMigrations(
 
       // need this in a transaction so both the up and 
       // the insert of the migration row succeed or fail
-      await client.query('BEGIN');
 
-      await migrationSql.up(client, args.transform);
-      await client.query(
-        SQL_INSERT_MIGRATION.replace(MIGRATIONS_TABLE, 
-          args.migrationsTable || MIGRATIONS_TABLE),
-        [`/${migrationName}`]
-      );
-      await client.query('COMMIT');
+      if(!migrationSql.skipTransaction) {
+
+        await client.query('BEGIN');
+
+        await migrationSql.up(client, args.transform);
+        await client.query(
+          SQL_INSERT_MIGRATION.replace(MIGRATIONS_TABLE, 
+            args.migrationsTable || MIGRATIONS_TABLE),
+          [`/${migrationName}`]
+        );
+        await client.query('COMMIT');
+      } else {
+        log('Skipping transaction for %s', migrationName);
+        console.log(colors.magenta('[nomadic]: Skipping transaction for'), migrationName);
+        await migrationSql.up(client, args.transform);
+        await client.query(
+          SQL_INSERT_MIGRATION.replace(MIGRATIONS_TABLE, 
+            args.migrationsTable || MIGRATIONS_TABLE),
+          [`/${migrationName}`]
+        );
+      }
     } catch (error: any) {
-      await client.query('ROLLBACK');
+      if (!migrationSql.skipTransaction) {
+        await client.query('ROLLBACK');
+      }
        // find the script
       const errScript = await readFile(path.join(
         args.migrations, 'sqls', `${migrationName}-up.sql`));

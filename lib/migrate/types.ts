@@ -27,4 +27,5 @@ export interface MigrationRow {
 export interface Migration {
   up: (db: Client, transform?: Nomadic.TransformFn) => Promise<void>;
   down: (db: Client, transform?: Nomadic.TransformFn) => Promise<void>;
+  skipTransaction?: boolean;
 }
